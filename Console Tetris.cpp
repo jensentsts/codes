@@ -8,15 +8,15 @@ using namespace std;
 // Please use GB 2312 to encode.
 // Please use GB 2312 to encode.
 // Please use GB 2312 to encode.
-// ¿ªÊ¼¿ª·¢Ê±¼ä£º2021Äê8ÔÂ13ÈÕ23£º13
-// ¿ª·¢½áÊøÊ±¼ä£º2021Äê8ÔÂ14ÈÕ23£º09
-// ¿ØÖÆÌ¨-----¶íÂŞË¹·½¿é
-// Ğ´ºÃ±ØÒª×¢ÊÍ
-// ¿ª·¢ÈÕÖ¾£º
-// 8.14 0:35 Ğ´ºÃÁË¿ªÊ¼²Ëµ¥µÄ¶¯Ğ§
-// 8.14°×ÌìÓĞÊÂÃ»Ğ´Ò»µã¶«Î÷
-// 8.14 23:06£ºÄÜÍæÁË£¬»¹ÓĞºÜ¶àÌåÑéĞèÒªÓÅ»¯
-// 8.15 20:29£ºĞŞ¸´ÁËbug£¬²¢Ôö¼ÓÁËEscÔİÍ£²Ëµ¥
+// å¼€å§‹å¼€å‘æ—¶é—´ï¼š2021å¹´8æœˆ13æ—¥23ï¼š13
+// å¼€å‘ç»“æŸæ—¶é—´ï¼š2021å¹´8æœˆ14æ—¥23ï¼š09
+// æ§åˆ¶å°-----ä¿„ç½—æ–¯æ–¹å—
+// å†™å¥½å¿…è¦æ³¨é‡Š
+// å¼€å‘æ—¥å¿—ï¼š
+// 8.14 0:35 å†™å¥½äº†å¼€å§‹èœå•çš„åŠ¨æ•ˆ
+// 8.14ç™½å¤©æœ‰äº‹æ²¡å†™ä¸€ç‚¹ä¸œè¥¿
+// 8.14 23:06ï¼šèƒ½ç©äº†ï¼Œè¿˜æœ‰å¾ˆå¤šä½“éªŒéœ€è¦ä¼˜åŒ–
+// 8.15 20:29ï¼šä¿®å¤äº†bugï¼Œå¹¶å¢åŠ äº†Escæš‚åœèœå•
 
 #define max(a, b) a > b ? a : b
 
@@ -25,7 +25,7 @@ enum screenData{
     SCREENHEIGHT = 26,
 };
 
-// ÓÎÏ·×´Ì¬
+// æ¸¸æˆçŠ¶æ€
 enum gameState{
     CLEANING = 114,
     DROPPING = 514,
@@ -37,7 +37,7 @@ enum renderBufferWard{
     SHOWING
 };
 
-// µôÂäµÄÍ¼°¸
+// æ‰è½çš„å›¾æ¡ˆ
 struct Drop{
     int id;
     int width, height;
@@ -48,37 +48,37 @@ struct Drop{
 Drop *dropList;
 int dropListSiz;
 
-int score;                              // ·ÖÊı
-int bestScore;                          // ×î¼Ñ·ÖÊı
-char bestPlayer[100];                   // ×îĞãÍæ¼Ò
-int dropType;                           // ÏÂÂäÀàĞÍ
-int dropX, dropY;                       // ÏÂÂäÎï×ø±ê
-int timeDelay;                          // ÑÓ³Ù
-enum gameState state;                   // ÓÎÏ·×´Ì¬
-const int NORMALTIMEDELAY = 180;        // ÑÓ³ÙµÄÄ¬ÈÏ
-const char BLOCK = '#';                 // ·½¿éÌùÍ¼
-const char AIR = ' ';                   // ¿Õ°×
+int score;                              // åˆ†æ•°
+int bestScore;                          // æœ€ä½³åˆ†æ•°
+char bestPlayer[100];                   // æœ€ç§€ç©å®¶
+int dropType;                           // ä¸‹è½ç±»å‹
+int dropX, dropY;                       // ä¸‹è½ç‰©åæ ‡
+int timeDelay;                          // å»¶è¿Ÿ
+enum gameState state;                   // æ¸¸æˆçŠ¶æ€
+const int NORMALTIMEDELAY = 180;        // å»¶è¿Ÿçš„é»˜è®¤
+const char BLOCK = '#';                 // æ–¹å—è´´å›¾
+const char AIR = ' ';                   // ç©ºç™½
 const int UP = 0;
 const int RIGHT = 1;
 const int DOWN = 2;
 const int LEFT = 3;
 BOOL blocks[SCREENWIDTH][SCREENHEIGHT];
 BOOL gameOver, gameExit;
-char renderBuffer[2][SCREENWIDTH][SCREENHEIGHT];        // Ë«»º³å
+char renderBuffer[2][SCREENWIDTH][SCREENHEIGHT];        // åŒç¼“å†²
 
 void init();
 void dropInit();
-void begin();                           // Æô¶¯£¨½øÈë¿ªÊ¼²Ëµ¥£©
-void gameStart();                       // ÓÎÏ·Æô¶¯
-void render();                          // äÖÈ¾Æ÷
-void renderFresh();                     // Ë¢ĞÂäÖÈ¾Æ÷µÄÁ½¸ö»º³å
-void renderDraw();                      // »æÖÆ
-void keyEvent();                        // ´¦Àí°´¼üÊÂ¼ş
-void update();                          // ¸üĞÂÓÎÏ·Êı¾İ
-void rotate();                          // Ğı×ªµôÂäÎï
-bool judgeMovable(int x, int y);        // ÅĞ¶ÏÊÇ·ñ¿ÉÒÔÒÆ¶¯µ½Ä³¸öµØ·½
+void begin();                           // å¯åŠ¨ï¼ˆè¿›å…¥å¼€å§‹èœå•ï¼‰
+void gameStart();                       // æ¸¸æˆå¯åŠ¨
+void render();                          // æ¸²æŸ“å™¨
+void renderFresh();                     // åˆ·æ–°æ¸²æŸ“å™¨çš„ä¸¤ä¸ªç¼“å†²
+void renderDraw();                      // ç»˜åˆ¶
+void keyEvent();                        // å¤„ç†æŒ‰é”®äº‹ä»¶
+void update();                          // æ›´æ–°æ¸¸æˆæ•°æ®
+void rotate();                          // æ—‹è½¬æ‰è½ç‰©
+bool judgeMovable(int x, int y);        // åˆ¤æ–­æ˜¯å¦å¯ä»¥ç§»åŠ¨åˆ°æŸä¸ªåœ°æ–¹
 
-void unblockedSleep(unsigned int);      // Î±·Ç×èÈûÏìÓ¦ÊäÈë
+void unblockedSleep(unsigned int);      // ä¼ªéé˜»å¡å“åº”è¾“å…¥
 void gotoxy(short, short);
 void slowlyPrint(char*);
 
@@ -197,9 +197,9 @@ void dropInit(){
     pdl(5, 1, 4, "####", LEFT);
 }
 
-// ±¾À´Ïë×öÏñ
+// æœ¬æ¥æƒ³åšåƒ
 //  >Start<
-// ÕâÑùµÄ¶¯»­µÄ£¬µ«ÊÇ¸ëÁË
+// è¿™æ ·çš„åŠ¨ç”»çš„ï¼Œä½†æ˜¯é¸½äº†
 int makeChoice(char* _choice[], int _amo, char *title = NULL){
     if (title != NULL){
         slowlyPrint(title);
@@ -390,7 +390,7 @@ void keyEvent(){
     }
 }
 
-// ¾ÍboolÁË£¬ÀÁµÃ¸Ä
+// å°±booläº†ï¼Œæ‡’å¾—æ”¹
 bool judgeMovable(int x, int y){
     /*printf("%s ensuring...\n", dropList[dropType].texture);*/
     if (x + dropList[dropType].width - 1 >= SCREENWIDTH || x < 0 || y + dropList[dropType].height - 1 >= SCREENHEIGHT || y < 0)
@@ -419,7 +419,7 @@ void update(){
             if (needCleaned == TRUE){
                 for (int j = 0; j < SCREENWIDTH; ++j)
                     blocks[j][i] = FALSE;
-                score += SCREENWIDTH * 10;      // ³Ë10²ÅÓĞµÃ·Ö¸Ğ£¨»¬»ü
+                score += SCREENWIDTH * 10;      // ä¹˜10æ‰æœ‰å¾—åˆ†æ„Ÿï¼ˆæ»‘ç¨½
                 cleanInNeed[i] = TRUE;
             }
         }
@@ -429,7 +429,7 @@ void update(){
     }
     if (state == DROPPING){
         // move
-        int movLoc = SCREENHEIGHT - 1;                         // movLoc: ÏÂ´ÎÒÆ¶¯Ó¦¸ÃÒÆ¶¯µ½ÄÄÒ»ĞĞ
+        int movLoc = SCREENHEIGHT - 1;                         // movLoc: ä¸‹æ¬¡ç§»åŠ¨åº”è¯¥ç§»åŠ¨åˆ°å“ªä¸€è¡Œ
         for (int i = SCREENHEIGHT - 1; i >= 0; --i){
             // If cleaed, skip this line.
             if (cleanInNeed[i] == TRUE){
@@ -449,15 +449,15 @@ void update(){
         return;
     }
     if (dropType == -1){
-        //dropType = rand() % dropListSiz;
-        dropType = 16;       // For debug
+        dropType = rand() % dropListSiz;
+        //dropType = 16;       // For debug
         dropY = 0;
         dropX = SCREENWIDTH >> 1;
         if (!judgeMovable(dropX, dropY))
             gameOver = TRUE;
         return;
     }
-    // Èç¹û¿ÉÒÔÏÂÂä
+    // å¦‚æœå¯ä»¥ä¸‹è½
     if (judgeMovable(dropX, dropY + 1)){
         dropY++;
     }
